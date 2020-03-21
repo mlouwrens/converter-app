@@ -52,12 +52,18 @@ class LengthServiceImplTest {
 	}
 	
 	@Test
-	public void convert_basic() {
+	public void convert_metricToImperial() {
 
 		when(dataServiceMock.getMap()).thenReturn(createMap());
-		assertArrayEquals(Arrays.asList(new ConversionResponse("Centimetre (cm)", 510.0), new ConversionResponse("Inch (in)", 200.78740), new ConversionResponse("Metre (m)", 5.1)).toArray(), impl.convert("Metre (m)", 5.1).toArray());
-		assertArrayEquals(Arrays.asList(new ConversionResponse("Centimetre (cm)", 19.685), new ConversionResponse("Inch (in)", 7.75), new ConversionResponse("Metre (m)", 0.19685)).toArray(), impl.convert("Inch (in)", 7.75).toArray());
+		assertArrayEquals(Arrays.asList(new ConversionResponse("Centimetre (cm)", 510.0), new ConversionResponse("Inch (in)", 200.78740), new ConversionResponse("Metre (m)", 5.1)).toArray(), impl.convert("Metre (m)", 5.1).toArray());		
 	}
+	
+	@Test
+	public void convert_imperialToMetric() {
+
+		when(dataServiceMock.getMap()).thenReturn(createMap());		
+		assertArrayEquals(Arrays.asList(new ConversionResponse("Centimetre (cm)", 19.685), new ConversionResponse("Inch (in)", 7.75), new ConversionResponse("Metre (m)", 0.19685)).toArray(), impl.convert("Inch (in)", 7.75).toArray());
+	}	
 	
 	@Test
 	public void convert_invalidOption() {

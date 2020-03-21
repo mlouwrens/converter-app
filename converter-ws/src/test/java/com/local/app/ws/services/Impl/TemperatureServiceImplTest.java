@@ -28,9 +28,14 @@ class TemperatureServiceImplTest {
 	}
 	
 	@Test
-	public void convert_basic() {
+	public void convert_metricToImperial() {
 
-		assertArrayEquals(Arrays.asList(new ConversionResponse("Celsius (C)", 34.0), new ConversionResponse("Farenheit (F)", 93.2)).toArray(), impl.convert("Celsius (C)", 34).toArray());
+		assertArrayEquals(Arrays.asList(new ConversionResponse("Celsius (C)", 34.0), new ConversionResponse("Farenheit (F)", 93.2)).toArray(), impl.convert("Celsius (C)", 34).toArray());		
+	}
+	
+	@Test
+	public void convert_imperialToMetric() {
+		
 		assertArrayEquals(Arrays.asList(new ConversionResponse("Celsius (C)", 122.77778), new ConversionResponse("Farenheit (F)", 253.0)).toArray(), impl.convert("Farenheit (F)", 253).toArray());
 	}
 	
