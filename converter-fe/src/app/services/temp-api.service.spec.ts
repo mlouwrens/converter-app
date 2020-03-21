@@ -11,9 +11,12 @@ describe('TempApiService', () => {
     TestBed.configureTestingModule({ 
       imports: [
         HttpClientTestingModule
-      ] 
+      ],
+      providers: [
+        TempApiService
+      ],
     });
-    service = TestBed.inject(TempApiService);
+    service = TestBed.get(TempApiService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -58,10 +61,10 @@ describe('TempApiService', () => {
 
       service.getConversions("unitFrom", 1.0)
         .subscribe((conversions: any) => {
-          expect(conversions.length).toBe(3);
+          expect(conversions.length).toBe(2);
         });
 
-      let req = httpMock.expectOne(service.baseUrl);
+      let req = httpMock.expectOne(service.baseUrl + '?unit=unitFrom&value=1');
       expect(req.request.method).toBe("GET");
 
       req.flush(conversionItem);

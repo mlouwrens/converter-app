@@ -11,9 +11,12 @@ describe('WeightApiService', () => {
     TestBed.configureTestingModule({ 
       imports: [
         HttpClientTestingModule
-      ] 
+      ],
+      providers: [
+        WeightApiService
+      ],
     });
-    service = TestBed.inject(WeightApiService);
+    service = TestBed.get(WeightApiService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -65,7 +68,7 @@ describe('WeightApiService', () => {
           expect(conversions.length).toBe(3);
         });
 
-      let req = httpMock.expectOne(service.baseUrl);
+      let req = httpMock.expectOne(service.baseUrl + '?unit=unitFrom&value=1');
       expect(req.request.method).toBe("GET");
 
       req.flush(conversionItem);

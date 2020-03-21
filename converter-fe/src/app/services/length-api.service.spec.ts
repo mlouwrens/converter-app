@@ -11,9 +11,12 @@ describe('LengthApiService', () => {
     TestBed.configureTestingModule({ 
       imports: [
         HttpClientTestingModule
-      ] 
+      ],
+      providers: [
+        LengthApiService
+      ]
     });
-    service = TestBed.inject(LengthApiService);
+    service = TestBed.get(LengthApiService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -65,7 +68,7 @@ describe('LengthApiService', () => {
           expect(conversions.length).toBe(3);
         });
 
-      let req = httpMock.expectOne(service.baseUrl);
+      let req = httpMock.expectOne(service.baseUrl + '?unit=unitFrom&value=1');
       expect(req.request.method).toBe("GET");
 
       req.flush(conversionItem);
