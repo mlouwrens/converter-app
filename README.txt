@@ -10,4 +10,4 @@ converter-fe - Front-End that requires web service for conversions
 ============================================================================
 1. build docker image using 'docker build -t converter-fe .'
 2. start docker image using 'docker run -p 8081:8081 converter-fe'
-3. connect to fe via browser using http://localhost:8081
+3. connect to fe via browser using http://127.0.0.1:8081
