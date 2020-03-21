@@ -1,0 +1,18 @@
+<form>
+  <div class="toolbar" role="header" >
+    <h1>Metric to Imperial Converter</h1>    
+  </div>   
+
+  <div class="content" role="main">
+    <select (change)="redirect($event.target.value)">
+      <option value=''>--Select conversion type--</option>
+      <option value='length'>Length</option>
+      <option value='temperature'>Temperature</option>
+      <option value='weight'>Weight</option>
+    </select>
+
+    <router-outlet></router-outlet>
+  </div>
+
+ 
+</form>

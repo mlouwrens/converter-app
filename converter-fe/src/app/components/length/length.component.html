@@ -1,0 +1,16 @@
+<form>
+  <div class="input-group">
+    <input class="text" type="text" name="value" [(ngModel)]="value" (ngModelChange)="getResult()">
+    <select name="selectUnit" [(ngModel)]="unit" (ngModelChange)="getResult()" >
+      <option *ngFor="let unit of units" [value]="unit">{{ unit }}</option>
+    </select>      
+  </div>   
+</form>
+
+<form>
+  <ul class="conversions">
+    <li *ngFor="let conversion of result">
+      <span>{{conversion.value}}  {{conversion.unit}} </span>
+    </li>
+  </ul>
+</form>
