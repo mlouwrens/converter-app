@@ -52,12 +52,18 @@ class WeightServiceImplTest {
 	}
 	
 	@Test
-	public void convert_basic() {
+	public void convert_metricToImperial() {
 
 		when(dataServiceMock.getMap()).thenReturn(createMap());
-		assertArrayEquals(Arrays.asList(new ConversionResponse("Gram (g)", -10750.1304), new ConversionResponse("Ounce (oz)", -379.2), new ConversionResponse("Pound (lb)", -23.7)).toArray(), impl.convert("Pound (lb)", -23.7).toArray());
-		assertArrayEquals(Arrays.asList(new ConversionResponse("Gram (g)", 861.0), new ConversionResponse("Ounce (oz)", 30.37091), new ConversionResponse("Pound (lb)", 1.89818)).toArray(), impl.convert("Gram (g)", 861).toArray());
+		assertArrayEquals(Arrays.asList(new ConversionResponse("Gram (g)", 861.0), new ConversionResponse("Ounce (oz)", 30.37091), new ConversionResponse("Pound (lb)", 1.89818)).toArray(), impl.convert("Gram (g)", 861).toArray());				
 	}
+	
+	@Test
+	public void convert_imperialToMetric() {
+
+		when(dataServiceMock.getMap()).thenReturn(createMap());		
+		assertArrayEquals(Arrays.asList(new ConversionResponse("Gram (g)", -10750.1304), new ConversionResponse("Ounce (oz)", -379.2), new ConversionResponse("Pound (lb)", -23.7)).toArray(), impl.convert("Pound (lb)", -23.7).toArray());		
+	}	
 	
 	@Test
 	public void convert_invalidOption() {
