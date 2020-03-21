@@ -1,4 +1,6 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { WeightApiService } from '../../services/weight-api.service';
 import { ConversionResponse } from '../../models/conversion-response';
 
@@ -7,24 +9,27 @@ import { ConversionResponse } from '../../models/conversion-response';
   templateUrl: './weight.component.html',
   styleUrls: ['./weight.component.css']
 })
-export class WeightComponent implements OnInit, OnChanges {
+export class WeightComponent implements OnInit, OnDestroy {
   units:string[];
   unit:string;
   value:number;
   result:ConversionResponse[];
+  subscription:Subscription = new Subscription();
 
   constructor(private weightApiService:WeightApiService) { }
 
   ngOnInit() {
     this.value = 1;
 
-    this.ngOnChanges();
-  }
-
-  ngOnChanges() {
-    this.weightApiService.getUnits().subscribe(units => {this.units = units},
+    const subscription = this.weightApiService.getUnits().subscribe(units => {this.units = units},
       error => console.log("Error: ", error),
       () => {this.unitsLoaded()});
+
+      this.subscription.add(subscription);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }  
 
   // Set default selected value
@@ -41,7 +46,9 @@ export class WeightComponent implements OnInit, OnChanges {
   getResult(){
     if (this.value &&
       this.unit){
-        this.weightApiService.getConversions(this.unit, this.value).subscribe(result => {this.result = result});
+        const subscription = this.weightApiService.getConversions(this.unit, this.value).subscribe(result => {this.result = result});
+
+        this.subscription.add(subscription);
       }    
   } 
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { TempApiService } from '../../services/temp-api.service';
 import { ConversionResponse } from '../../models/conversion-response';
 
@@ -7,24 +9,27 @@ import { ConversionResponse } from '../../models/conversion-response';
   templateUrl: './temperature.component.html',
   styleUrls: ['./temperature.component.css']
 })
-export class TemperatureComponent implements OnInit, OnChanges {
+export class TemperatureComponent implements OnInit, OnDestroy {
   units:string[];
   unit:string;
   value:number;
   result:ConversionResponse[];
+  subscription:Subscription = new Subscription();
 
   constructor(private tempApiService:TempApiService) { }
 
   ngOnInit() {
     this.value = 1;
 
-    this.ngOnChanges();
-  }
-
-  ngOnChanges() {
-    this.tempApiService.getUnits().subscribe(units => {this.units = units},
+    const subscription = this.tempApiService.getUnits().subscribe(units => {this.units = units},
       error => console.log("Error: ", error),
       () => {this.unitsLoaded()});
+
+      this.subscription.add(subscription);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }  
 
   // Set default selected value
@@ -41,7 +46,9 @@ export class TemperatureComponent implements OnInit, OnChanges {
   getResult(){
     if (this.value &&
       this.unit){
-        this.tempApiService.getConversions(this.unit, this.value).subscribe(result => {this.result = result});
+        const subscription = this.tempApiService.getConversions(this.unit, this.value).subscribe(result => {this.result = result});
+
+        this.subscription.add(subscription);
       }    
   }  
 }

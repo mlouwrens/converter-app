@@ -14,8 +14,7 @@ export class LengthApiService {
   constructor(private http:HttpClient, private adapter:ConversionResponseAdapter) { }
 
   getUnits() : Observable<string[]> {
-    //return this.http.get<string[]>(this.baseUrl+'/units');
-    return this.http.get<string[]>('http://localhost:8080/length/units');
+    return this.http.get<string[]>(this.baseUrl + '/units');
   }
 
   getConversions(unit:string, value:number) : Observable<ConversionResponse[]> {
